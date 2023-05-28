@@ -1,0 +1,95 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+    {{ auction.title }}
+{% endblock title %}
+
+{% block body %}
+    <h2>{{ auction.title }}</h2>
+
+    {% if auction.active == False %}
+        <div class="auction_closed">
+            <p>Auction finished</p>
+            {% if request.user == auction.bid.bidder %}
+                <p>You win!</p>
+            {% else %}
+                <p>{{ auction.bid.bidder.username }} won</p>
+            {% endif %}
+        </div>
+    {% else %}
+    <div class="auction_closed_content">
+        {% if request.user.username %}
+            {% if request.user.id != auction.creator.id %}
+                {% if user_watchlist == auction %}
+                    <a style="color: red;" href="{% url 'remove-watchlist' auction.id %}">Remove from watchlist</a>
+                {% else %}
+                    <a href="{% url 'add-watchlist' auction.id %}">Add to watchlist</a>
+                {% endif %}
+            {% else %}
+            <a style="color: red;" href="{% url 'delete-auction' auction.id %}">Close auction</a>
+            {% endif %}
+            
+        {% endif %}
+    
+        <div class="auction">
+            <div class="left">
+                <img style="max-width: 500px;" src="{{ auction.url_image }}" alt="{{ auction.title }}">
+            </div>
+            <div class="right">
+                <span style="font-weight: bold;">Title: </span>{{ auction.title }} <br>
+                <span style="font-weight: bold;">Price: </span>${{ auction.bid.value }} offered by
+                {% if request.user == auction.bid.bidder %} you 
+                    {% else %}{{ auction.bid.bidder.username }}
+                {% endif %} <br>
+                <span style="font-weight: bold;">Description: </span>{{ auction.description }} <br>
+                <br><br>
+                Auction created in {{ auction.date }} by {{ auction.creator }}
+    
+                <form action="{% url 'view-auction' auction.id %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {% if request.user == auction.bid.bidder %}
+                            <p class="alert alert-success">You are the highest bidder</p>
+                        {% endif %}
+    
+                        {% if messages %}
+                            {% for message in messages %}
+                                <p class="alert alert-danger">{{message}}</p>
+                            {% endfor %}
+                        {% endif %}
+    
+                        {% if request.user != auction.creator  %}
+                            <input type="number" name="new_bid" required name="bid" class="form-control" placeholder="Your bid (min value {{ auction.bid.value }})"> 
+                            <input style="margin-top:2%;" class="btn btn-primary" type="submit" value="Make an offer">
+                        {% endif %}
+                    </div>
+                </form>
+                
+                
+            </div>
+        </div>
+        <div class="comments_content">
+            <h3>Messages</h3>
+            {% if request.user.username != "" %}
+                <form action="{% url 'add-comment' auction.id %}" method="POST" style="margin: 0 2%;">
+                    {% csrf_token %}
+                    <input type="text" class="form-control" name="message">
+                    <br>
+                    <input type="submit" class="btn btn-secondary" value="Leave a message">
+                </form>
+            {% endif %}
+        
+
+            {% for comment in comments %}
+                <div class="comment">
+                    <p>{{comment.message}}</p>
+                    <p style="font-size: 14px; color: rgb(122, 122, 122);">Posted by {{ comment.author }}</p>
+                </div>
+            {% endfor %}
+            
+        </div>
+        
+    </div>
+
+    {% endif %}
+{% endblock body %}

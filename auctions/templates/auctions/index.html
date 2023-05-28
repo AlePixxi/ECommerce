@@ -1,0 +1,26 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+
+    {% for auction in auctions %}
+                <div class="auction">
+                    <div class="left">
+                        <a href="{% url 'view-auction' auction.id %}">
+                                <h2>{{ auction.title }} <span> at ${{ auction.bid.value }}</span></h2>
+                        </a>
+                        <hr>
+                        <img src="{{ auction.url_image }}" alt="image">
+                    </div>
+                    <div class="right">
+                        {{ auction.description }}
+                        <div class="button-content">
+                            <div class="info">
+                                <a class="btn btn-primary" href="{% url 'view-auction' auction.id %}">More information</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+    {% endfor %}
+{% endblock %}

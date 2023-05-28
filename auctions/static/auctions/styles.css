@@ -1,0 +1,70 @@
+body {
+    padding: 10px;
+    height: 100vh;
+}
+
+.auction {
+    display: flex;
+    border: 2px solid lightgrey;
+    border-radius: 20px;
+    padding: 1%;
+    margin: 2% 2%;
+}
+.left {
+    width: 35%;
+}
+
+.left img {
+    border: 1px solid lightgrey;
+    border-radius: 20px;
+    max-width: 400px;
+}
+.left hr {
+    border: 1px solid lightgrey;
+    border-radius: 20px;
+}
+.auction span {
+    color: black;
+    font-size: 24px;
+    margin-left: 2%;
+}
+
+
+.right {
+    font-size: 18px;
+    width: 50%;
+    margin-top: 5%;
+    margin-left: 2%;
+}
+.button-content {
+    display: flex;
+    margin-top: 5%;
+}
+
+.info {
+    margin-right: 2%;
+}
+.wishlist a {
+    margin-top: 10px;
+}
+.auction_closed {
+    background-color: lightgreen;
+    color: darkgreen;
+    font-weight: bold;
+    font-size: 32px;
+    border-radius: 10px;
+    text-align: center;
+    padding: 1%;
+}
+.comments_content {
+    padding-bottom: 2%;
+    margin: 1% 10%;
+}
+.comment {
+    background-color: lightgray;
+    padding: .5%;
+    margin: 1% 0;
+    border-radius: 10px;
+    font-size: 24px;
+}
+.comment p { margin-left: 5%; }

@@ -1,0 +1,43 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+    Create a new auction
+{% endblock title %}
+
+
+{% block body %}
+    <h2>Create a new auction</h2>
+
+    {% if message %}
+    <h4 style="color: red; background-color: rgb(255, 229, 229); padding: 1%; border-radius: 10px;">{{ message }}</h4>
+    {% endif %}
+
+
+    <form action="{% url 'create-auction' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <input type="text" required name="title" class="form-control" placeholder="Title"> 
+        </div>
+        <div class="form-group">
+            <textarea name="description" required rows="10" class="form-control" placeholder="Description"></textarea>
+        </div>
+
+        <div class="form-group">
+            <input type="text" name="image" class="form-control" placeholder="Image URL">
+        </div>
+
+        <div class="form-group">
+            <input type="number" name="offer" required class="form-control" placeholder="Initial Bid">
+        </div>
+
+        <select name="category" id="">
+            {% for category in category_list %}
+                <option value="{{ category }}">{{ category }}</option>
+            {% endfor %}
+
+        </select>
+
+        <input class="btn btn-primary" type="submit" value="Create new auction">
+    </form>
+
+{% endblock %}
